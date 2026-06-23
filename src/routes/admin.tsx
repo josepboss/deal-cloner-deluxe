@@ -5,7 +5,7 @@ import { ArrowLeft, Plus, Trash2, UserPlus, UserX } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
-import { createUserWithLicense } from "@/lib/admin-users.functions";
+import { createUserWithLicense, listLicenseKeys } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin — RivalV2" }] }),
@@ -35,6 +35,7 @@ function AdminPage() {
   const { user, loading } = useAuth();
   const isAdmin = useIsAdmin(user?.id);
   const createUserFn = useServerFn(createUserWithLicense);
+  const listKeysFn = useServerFn(listLicenseKeys);
 
   const [rows, setRows] = useState<LicenseRow[]>([]);
   const [busy, setBusy] = useState(false);
@@ -59,16 +60,13 @@ function AdminPage() {
   }, [loading, user, isAdmin, navigate]);
 
   const load = useCallback(async () => {
-    const { data, error } = await supabase
-      .from("license_keys_with_email")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error) {
-      toast.error(error.message);
-      return;
+    try {
+      const data = await listKeysFn();
+      setRows((data ?? []) as LicenseRow[]);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to load");
     }
-    setRows((data ?? []) as LicenseRow[]);
-  }, []);
+  }, [listKeysFn]);
 
   useEffect(() => {
     if (isAdmin) load();
