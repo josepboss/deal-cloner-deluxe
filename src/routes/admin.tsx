@@ -1,9 +1,11 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, Plus, Trash2, UserX } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, UserPlus, UserX } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
+import { createUserWithLicense } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin — RivalV2" }] }),
@@ -32,12 +34,21 @@ function AdminPage() {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
   const isAdmin = useIsAdmin(user?.id);
+  const createUserFn = useServerFn(createUserWithLicense);
 
   const [rows, setRows] = useState<LicenseRow[]>([]);
   const [busy, setBusy] = useState(false);
   const [newKey, setNewKey] = useState(genKey());
   const [assignEmail, setAssignEmail] = useState("");
   const [notes, setNotes] = useState("");
+
+  // Create-user form state
+  const [cuEmail, setCuEmail] = useState("");
+  const [cuPassword, setCuPassword] = useState("");
+  const [cuKey, setCuKey] = useState(genKey());
+  const [cuNotes, setCuNotes] = useState("");
+  const [cuMakeAdmin, setCuMakeAdmin] = useState(false);
+  const [cuBusy, setCuBusy] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/auth" });
@@ -62,6 +73,39 @@ function AdminPage() {
   useEffect(() => {
     if (isAdmin) load();
   }, [isAdmin, load]);
+
+  async function createUser(e: React.FormEvent) {
+    e.preventDefault();
+    if (!cuEmail.trim() || cuPassword.length < 8) {
+      toast.error("Email and 8+ char password required");
+      return;
+    }
+    setCuBusy(true);
+    try {
+      const res = await createUserFn({
+        data: {
+          email: cuEmail.trim(),
+          password: cuPassword,
+          licenseKey: cuKey.trim() || null,
+          notes: cuNotes.trim() || null,
+          makeAdmin: cuMakeAdmin,
+        },
+      });
+      toast.success(`User created: ${res.email}`);
+      setCuEmail("");
+      setCuPassword("");
+      setCuKey(genKey());
+      setCuNotes("");
+      setCuMakeAdmin(false);
+      load();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to create user");
+    } finally {
+      setCuBusy(false);
+    }
+  }
+
+
 
   async function createKey(e: React.FormEvent) {
     e.preventDefault();
@@ -153,6 +197,93 @@ function AdminPage() {
       </header>
 
       <main className="mx-auto max-w-6xl px-6 py-10 space-y-8">
+        <section className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-xl p-6">
+          <h2 className="font-display text-xl font-bold mb-4">Create User</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Creates a new login (email confirmed). Optionally generates and assigns a license key in one shot.
+          </p>
+          <form onSubmit={createUser} className="grid gap-3 md:grid-cols-4">
+            <div className="md:col-span-2">
+              <label className="block text-xs font-medium text-muted-foreground mb-1">Email</label>
+              <input
+                type="email"
+                required
+                value={cuEmail}
+                onChange={(e) => setCuEmail(e.target.value)}
+                placeholder="user@example.com"
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-xs font-medium text-muted-foreground mb-1">
+                Temporary password (min 8)
+              </label>
+              <input
+                type="text"
+                required
+                minLength={8}
+                value={cuPassword}
+                onChange={(e) => setCuPassword(e.target.value)}
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm font-mono"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-xs font-medium text-muted-foreground mb-1">
+                License key (optional)
+              </label>
+              <div className="flex gap-2">
+                <input
+                  value={cuKey}
+                  onChange={(e) => setCuKey(e.target.value)}
+                  className="flex-1 rounded-lg border border-border bg-background px-3 py-2 text-sm font-mono"
+                />
+                <button
+                  type="button"
+                  onClick={() => setCuKey(genKey())}
+                  className="rounded-lg border border-border px-3 py-2 text-sm hover:bg-accent"
+                >
+                  Random
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCuKey("")}
+                  className="rounded-lg border border-border px-3 py-2 text-sm hover:bg-accent"
+                >
+                  Skip
+                </button>
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-muted-foreground mb-1">Notes</label>
+              <input
+                value={cuNotes}
+                onChange={(e) => setCuNotes(e.target.value)}
+                className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm"
+              />
+            </div>
+            <div className="flex items-end">
+              <label className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                <input
+                  type="checkbox"
+                  checked={cuMakeAdmin}
+                  onChange={(e) => setCuMakeAdmin(e.target.checked)}
+                  className="h-4 w-4 rounded border-border"
+                />
+                Make admin
+              </label>
+            </div>
+            <div className="md:col-span-4">
+              <button
+                type="submit"
+                disabled={cuBusy}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-brand px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand hover:opacity-95 disabled:opacity-50"
+              >
+                <UserPlus className="h-4 w-4" /> {cuBusy ? "Creating…" : "Create User"}
+              </button>
+            </div>
+          </form>
+        </section>
+
         <section className="rounded-2xl border border-border/60 bg-card/60 backdrop-blur-xl p-6">
           <h2 className="font-display text-xl font-bold mb-4">Create License Key</h2>
           <form onSubmit={createKey} className="grid gap-3 md:grid-cols-4">
