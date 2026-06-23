@@ -4,14 +4,13 @@ import { toast } from "sonner";
 import { Copy, Download, LogOut, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
+import extensionAsset from "@/assets/rival-extension.zip.asset.json";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — RivalV2" }] }),
   component: DashboardPage,
 });
 
-const EXTENSION_URL =
-  "https://drive.google.com/file/d/1-NhhA77TO1sBZdXUUqAol5Cq1us3tpmk/view?usp=sharing";
 
 function DashboardPage() {
   const navigate = useNavigate();
