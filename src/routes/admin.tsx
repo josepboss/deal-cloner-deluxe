@@ -35,6 +35,7 @@ function AdminPage() {
   const { user, loading } = useAuth();
   const isAdmin = useIsAdmin(user?.id);
   const createUserFn = useServerFn(createUserWithLicense);
+  const listKeysFn = useServerFn(listLicenseKeys);
 
   const [rows, setRows] = useState<LicenseRow[]>([]);
   const [busy, setBusy] = useState(false);
