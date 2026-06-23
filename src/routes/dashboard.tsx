@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Copy, Download, LogOut, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
-import extensionAsset from "@/assets/rival-extension.zip.asset.json";
+const EXTENSION_DOWNLOAD_URL = "https://rivalv2.shop/Rival_V10.2.zip";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — RivalV2" }] }),
