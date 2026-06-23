@@ -37,6 +37,7 @@ export function useIsAdmin(userId: string | undefined) {
     supabase
       .rpc("has_role", { _user_id: userId, _role: "admin" })
       .then(({ data, error }) => {
+        console.log("[has_role] userId=", userId, "data=", data, "error=", error);
         if (error) {
           console.error("has_role error", error);
           setIsAdmin(false);
