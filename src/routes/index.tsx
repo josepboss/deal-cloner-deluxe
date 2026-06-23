@@ -214,10 +214,15 @@ function ExtensionDownload() {
                     {p.version}
                   </code>
                 </div>
-                <button className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-brand px-5 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:opacity-95">
+                <a
+                  href="https://drive.google.com/file/d/1-NhhA77TO1sBZdXUUqAol5Cq1us3tpmk/view?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-brand px-5 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:opacity-95"
+                >
                   <Download className="h-4 w-4" />
                   Download {p.label}
-                </button>
+                </a>
               </div>
             ))}
           </div>
