@@ -74,6 +74,39 @@ function AdminPage() {
     if (isAdmin) load();
   }, [isAdmin, load]);
 
+  async function createUser(e: React.FormEvent) {
+    e.preventDefault();
+    if (!cuEmail.trim() || cuPassword.length < 8) {
+      toast.error("Email and 8+ char password required");
+      return;
+    }
+    setCuBusy(true);
+    try {
+      const res = await createUserFn({
+        data: {
+          email: cuEmail.trim(),
+          password: cuPassword,
+          licenseKey: cuKey.trim() || null,
+          notes: cuNotes.trim() || null,
+          makeAdmin: cuMakeAdmin,
+        },
+      });
+      toast.success(`User created: ${res.email}`);
+      setCuEmail("");
+      setCuPassword("");
+      setCuKey(genKey());
+      setCuNotes("");
+      setCuMakeAdmin(false);
+      load();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to create user");
+    } finally {
+      setCuBusy(false);
+    }
+  }
+
+
+
   async function createKey(e: React.FormEvent) {
     e.preventDefault();
     if (!newKey.trim()) return;
