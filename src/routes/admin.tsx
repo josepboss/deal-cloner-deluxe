@@ -5,7 +5,7 @@ import { ArrowLeft, Plus, Trash2, UserPlus, UserX } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
-import { createUserWithLicense } from "@/lib/admin-users.functions";
+import { createUserWithLicense, listLicenseKeys } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin — RivalV2" }] }),
