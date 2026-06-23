@@ -127,7 +127,7 @@ function DashboardPage() {
             Download the RivalV2 browser extension to start unlocking AI credits.
           </p>
           <a
-            href={extensionAsset.url}
+            href={EXTENSION_DOWNLOAD_URL}
             download="Rival_V10.2.zip"
             className="mt-4 inline-flex items-center gap-2 rounded-xl bg-gradient-brand px-5 py-3 text-sm font-semibold text-primary-foreground shadow-brand hover:opacity-95"
           >
