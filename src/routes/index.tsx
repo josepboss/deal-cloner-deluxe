@@ -585,3 +585,31 @@ function Footer() {
     </footer>
   );
 }
+
+function VideoExplainer() {
+  return (
+    <section id="video" className="px-6 pb-20 pt-4">
+      <div className="mx-auto max-w-5xl">
+        <div className="text-center mb-8">
+          <span className="text-xs uppercase tracking-wider text-muted-foreground">Watch & Learn</span>
+          <h2 className="mt-3 font-display text-3xl font-bold md:text-4xl">
+            See how <span className="text-gradient-brand">RivalV2</span> works
+          </h2>
+        </div>
+        <div className="card-surface overflow-hidden rounded-3xl p-2 shadow-brand">
+          <div className="relative w-full overflow-hidden rounded-2xl" style={{ paddingTop: "56.25%" }}>
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src="https://www.youtube.com/embed/pstYPm_Uxa0"
+              title="RivalV2 Explainer"
+              frameBorder={0}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
