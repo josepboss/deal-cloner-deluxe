@@ -1,9 +1,11 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, Plus, Trash2, UserX } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, UserPlus, UserX } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
+import { createUserWithLicense } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin — RivalV2" }] }),
@@ -32,12 +34,21 @@ function AdminPage() {
   const navigate = useNavigate();
   const { user, loading } = useAuth();
   const isAdmin = useIsAdmin(user?.id);
+  const createUserFn = useServerFn(createUserWithLicense);
 
   const [rows, setRows] = useState<LicenseRow[]>([]);
   const [busy, setBusy] = useState(false);
   const [newKey, setNewKey] = useState(genKey());
   const [assignEmail, setAssignEmail] = useState("");
   const [notes, setNotes] = useState("");
+
+  // Create-user form state
+  const [cuEmail, setCuEmail] = useState("");
+  const [cuPassword, setCuPassword] = useState("");
+  const [cuKey, setCuKey] = useState(genKey());
+  const [cuNotes, setCuNotes] = useState("");
+  const [cuMakeAdmin, setCuMakeAdmin] = useState(false);
+  const [cuBusy, setCuBusy] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/auth" });
