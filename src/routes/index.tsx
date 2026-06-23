@@ -599,7 +599,7 @@ function Footer() {
     <footer className="border-t border-border/60 px-6 py-10">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-muted-foreground md:flex-row">
         <div className="flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-brand text-xs font-bold text-primary-foreground">VD</span>
+          <span className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-brand text-xs font-bold text-primary-foreground">R2</span>
           <span className="font-display font-semibold text-foreground">RivalV2</span>
         </div>
         <p>© {new Date().getFullYear()} RivalV2. All rights reserved.</p>
