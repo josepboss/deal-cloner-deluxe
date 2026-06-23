@@ -51,7 +51,7 @@ function Index() {
         <Guarantee />
         <Faq />
         <FinalCta />
-        <Community />
+        
       </main>
       <Footer />
     </div>
@@ -82,7 +82,7 @@ function Header() {
     { label: "Packages", href: "#pricing" },
     { label: "Credits", href: "#pricing" },
     { label: "Extension", href: "#extension" },
-    { label: "Community", href: "#community" },
+    
     { label: "Support", href: "#faq" },
   ];
   return (
@@ -564,44 +564,6 @@ function FinalCta() {
   );
 }
 
-function Community() {
-  const items = [
-    { icon: BookOpen, title: "Exclusive Content", desc: "Daily AI tips and materials" },
-    { icon: Users, title: "Real Networking", desc: "Connect with industry professionals" },
-    { icon: Rocket, title: "Opportunities", desc: "Stay updated on the best jobs and projects" },
-  ];
-  return (
-    <section id="community" className="px-6 pb-24">
-      <div className="mx-auto max-w-5xl">
-        <div className="card-surface rounded-3xl p-10 text-center">
-          <span className="text-xs uppercase tracking-wider text-muted-foreground">Exclusive Community</span>
-          <h2 className="mt-3 font-display text-4xl font-bold md:text-5xl">
-            Networking <span className="text-gradient-brand">Group</span>
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Connect with other professionals who use AI daily. Share experiences,
-            discover exclusive tips and stay up to date with the best opportunities.
-          </p>
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
-            {items.map((i) => (
-              <div key={i.title} className="rounded-2xl border border-border bg-background/40 p-6 text-left">
-                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-brand text-primary-foreground">
-                  <i.icon className="h-5 w-5" />
-                </div>
-                <h4 className="font-display text-lg font-semibold">{i.title}</h4>
-                <p className="mt-1 text-sm text-muted-foreground">{i.desc}</p>
-              </div>
-            ))}
-          </div>
-          <button className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-gradient-brand px-7 py-3.5 font-semibold text-primary-foreground shadow-brand transition hover:opacity-95">
-            <MessageCircle className="h-4 w-4" />
-            Join the Group Now
-          </button>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function Footer() {
   return (
