@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useAuth } from "@/hooks/use-auth";
 import {
   Zap,
   Puzzle,
@@ -73,6 +74,7 @@ function TopBar() {
 }
 
 function Header() {
+  const { user } = useAuth();
   const nav = [
     { label: "Home", href: "#" },
     { label: "Packages", href: "#pricing" },
@@ -86,7 +88,7 @@ function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <a href="#" className="flex items-center gap-2">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-brand font-display text-sm font-bold text-primary-foreground shadow-brand">
-            VD
+            R2
           </span>
           <span className="font-display text-lg font-bold">
             Rival<span className="text-gradient-brand">V2</span>
@@ -103,12 +105,12 @@ function Header() {
             </a>
           ))}
         </nav>
-        <a
-          href="#pricing"
+        <Link
+          to={user ? "/dashboard" : "/auth"}
           className="rounded-xl bg-gradient-brand px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-brand transition hover:opacity-95"
         >
-          Sign In
-        </a>
+          {user ? "Dashboard" : "Sign In"}
+        </Link>
       </div>
     </header>
   );
