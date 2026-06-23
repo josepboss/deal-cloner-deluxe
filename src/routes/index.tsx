@@ -22,6 +22,8 @@ import {
   BookOpen,
 } from "lucide-react";
 import { useState } from "react";
+import extensionAsset from "@/assets/rival-extension.zip.asset.json";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
