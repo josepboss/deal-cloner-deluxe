@@ -82,7 +82,7 @@ function Header() {
     { label: "Packages", href: "#pricing" },
     { label: "Credits", href: "#pricing" },
     { label: "Extension", href: "#extension" },
-    { label: "Community", href: "#community" },
+    
     { label: "Support", href: "#faq" },
   ];
   return (
