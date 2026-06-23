@@ -22,6 +22,8 @@ import {
   BookOpen,
 } from "lucide-react";
 import { useState } from "react";
+import extensionAsset from "@/assets/rival-extension.zip.asset.json";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -217,10 +219,10 @@ function ExtensionDownload() {
                   </code>
                 </div>
                 <a
-                  href="https://drive.google.com/file/d/1-NhhA77TO1sBZdXUUqAol5Cq1us3tpmk/view?usp=sharing"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={extensionAsset.url}
+                  download="Rival_V10.2.zip"
                   className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-brand px-5 py-3 text-sm font-semibold text-primary-foreground shadow-brand transition hover:opacity-95"
+
                 >
                   <Download className="h-4 w-4" />
                   Download {p.label}
