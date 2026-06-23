@@ -4,14 +4,13 @@ import { toast } from "sonner";
 import { Copy, Download, LogOut, Shield } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth, useIsAdmin } from "@/hooks/use-auth";
+import extensionAsset from "@/assets/rival-extension.zip.asset.json";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — RivalV2" }] }),
   component: DashboardPage,
 });
 
-const EXTENSION_URL =
-  "https://drive.google.com/file/d/1-NhhA77TO1sBZdXUUqAol5Cq1us3tpmk/view?usp=sharing";
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -128,13 +127,13 @@ function DashboardPage() {
             Download the RivalV2 browser extension to start unlocking AI credits.
           </p>
           <a
-            href={EXTENSION_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={extensionAsset.url}
+            download="Rival_V10.2.zip"
             className="mt-4 inline-flex items-center gap-2 rounded-xl bg-gradient-brand px-5 py-3 text-sm font-semibold text-primary-foreground shadow-brand hover:opacity-95"
           >
             <Download className="h-4 w-4" /> Download Extension
           </a>
+
         </div>
       </main>
     </div>
