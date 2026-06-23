@@ -31,7 +31,7 @@ export function useIsAdmin(userId: string | undefined) {
 
   useEffect(() => {
     if (!userId) {
-      setIsAdmin(false);
+      setIsAdmin(null);
       return;
     }
     supabase
