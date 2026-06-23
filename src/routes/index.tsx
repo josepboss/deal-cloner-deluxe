@@ -22,7 +22,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { useState } from "react";
-import extensionAsset from "@/assets/rival-extension.zip.asset.json";
+const EXTENSION_DOWNLOAD_URL = "https://rivalv2.shop/Rival_V10.2.zip";
 
 
 export const Route = createFileRoute("/")({
