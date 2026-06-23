@@ -25,7 +25,7 @@ import { useState } from "react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "VibeDeals — Stop struggling with AI credit limits" },
+      { title: "RivalV2 — Stop struggling with AI credit limits" },
       { name: "description", content: "Top-ups, PRO accounts and the extension that freezes your credits — all instant." },
     ],
   }),
@@ -89,7 +89,7 @@ function Header() {
             VD
           </span>
           <span className="font-display text-lg font-bold">
-            Vibe<span className="text-gradient-brand">Deals</span>
+            Rival<span className="text-gradient-brand">V2</span>
           </span>
         </a>
         <nav className="hidden items-center gap-1 md:flex">
@@ -192,7 +192,7 @@ function ExtensionDownload() {
         <div className="card-surface rounded-3xl p-10 md:p-14">
           <div className="text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-accent/40 px-3 py-1 text-xs uppercase tracking-wider text-muted-foreground">
-              <Puzzle className="h-3.5 w-3.5" /> VibeDeals Extension
+              <Puzzle className="h-3.5 w-3.5" /> RivalV2 Extension
             </span>
             <h2 className="mt-5 font-display text-4xl font-bold md:text-5xl">
               Download <span className="text-gradient-brand">Extension</span>
@@ -374,7 +374,7 @@ function Testimonials() {
   const items = [
     { quote: "Best platform for AI credits. Instant delivery and the prices are unbeatable.", name: "Rahim K.", role: "Full-Stack Developer", initials: "RK" },
     { quote: "The extensions are incredible! They saved me hours of work every week.", name: "Sarah L.", role: "UI/UX Designer", initials: "SL" },
-    { quote: "We switched our entire team to VibeDeals Pro accounts. The value is insane.", name: "Tanvir H.", role: "Startup Founder", initials: "TH" },
+    { quote: "We switched our entire team to RivalV2 Pro accounts. The value is insane.", name: "Tanvir H.", role: "Startup Founder", initials: "TH" },
   ];
   return (
     <section className="px-6 pb-24">
@@ -600,9 +600,9 @@ function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-muted-foreground md:flex-row">
         <div className="flex items-center gap-2">
           <span className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-brand text-xs font-bold text-primary-foreground">VD</span>
-          <span className="font-display font-semibold text-foreground">VibeDeals</span>
+          <span className="font-display font-semibold text-foreground">RivalV2</span>
         </div>
-        <p>© {new Date().getFullYear()} VibeDeals. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} RivalV2. All rights reserved.</p>
         <div className="flex gap-4">
           <a href="#" className="hover:text-foreground">Privacy</a>
           <a href="#" className="hover:text-foreground">Terms</a>
