@@ -42,8 +42,10 @@ function Index() {
       <Header />
       <main>
         <Hero />
+        <VideoExplainer />
         <FeatureGrid />
         <ExtensionDownload />
+
         <Pricing />
         <Problem />
         <Testimonials />
