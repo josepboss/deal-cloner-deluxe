@@ -44,8 +44,8 @@ function AdminPage() {
   }, [loading, user, navigate]);
 
   useEffect(() => {
-    if (isAdmin === false) navigate({ to: "/dashboard" });
-  }, [isAdmin, navigate]);
+    if (!loading && user && isAdmin === false) navigate({ to: "/dashboard" });
+  }, [loading, user, isAdmin, navigate]);
 
   const load = useCallback(async () => {
     const { data, error } = await supabase
