@@ -51,7 +51,7 @@ function Index() {
         <Guarantee />
         <Faq />
         <FinalCta />
-        <Community />
+        
       </main>
       <Footer />
     </div>
