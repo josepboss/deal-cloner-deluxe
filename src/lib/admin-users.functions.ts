@@ -21,7 +21,10 @@ export const createUserWithLicense = createServerFn({ method: "POST" })
     if (!token) throw new Error("Unauthorized");
 
     const { data: userData, error: userErr } = await supabaseAdmin.auth.getUser(token);
-    if (userErr || !userData.user) throw new Error("Unauthorized");
+    if (userErr || !userData.user) {
+      console.error("[createUserWithLicense] getUser failed", { msg: userErr?.message, tokenLen: token.length, tokenStart: token.slice(0, 20) });
+      throw new Error(`Unauthorized: ${userErr?.message ?? "no user"}`);
+    }
 
     const { data: isAdmin, error: roleErr } = await supabaseAdmin.rpc("has_role", {
       _user_id: userData.user.id,
