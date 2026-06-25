@@ -84,13 +84,9 @@ export const createUserWithLicense = createServerFn({ method: "POST" })
 
 async function assertAdmin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const authHeader = getRequestHeader("authorization") ?? "";
-  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-  if (!token) throw new Error("Unauthorized");
-  const { data: userData, error: userErr } = await supabaseAdmin.auth.getUser(token);
-  if (userErr || !userData.user) throw new Error("Unauthorized");
+  const callerId = await getCallerUserId();
   const { data: isAdmin, error: roleErr } = await supabaseAdmin.rpc("has_role", {
-    _user_id: userData.user.id,
+    _user_id: callerId,
     _role: "admin",
   });
   if (roleErr) throw new Error(roleErr.message);
