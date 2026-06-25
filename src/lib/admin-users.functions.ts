@@ -10,24 +10,35 @@ const createUserSchema = z.object({
   makeAdmin: z.boolean().optional(),
 });
 
+async function getCallerUserId(): Promise<string> {
+  const authHeader = getRequestHeader("authorization") ?? "";
+  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+  if (!token) throw new Error("Unauthorized");
+
+  // Validate the user's JWT by calling /auth/v1/user with the token as Authorization.
+  // Using supabaseAdmin.auth.getUser(token) fails with new ES256 JWTs.
+  const { createClient } = await import("@supabase/supabase-js");
+  const { SUPABASE_URL, SUPABASE_ANON_KEY } = await import("./supabase-config");
+  const userClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    global: { headers: { Authorization: `Bearer ${token}` } },
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+  const { data, error } = await userClient.auth.getUser();
+  if (error || !data.user) {
+    console.error("[admin-users] getUser failed", { msg: error?.message, tokenLen: token.length });
+    throw new Error(`Unauthorized: ${error?.message ?? "no user"}`);
+  }
+  return data.user.id;
+}
+
 export const createUserWithLicense = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => createUserSchema.parse(input))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    // Authorize caller — they must be a signed-in admin
-    const authHeader = getRequestHeader("authorization") ?? "";
-    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
-    if (!token) throw new Error("Unauthorized");
-
-    const { data: userData, error: userErr } = await supabaseAdmin.auth.getUser(token);
-    if (userErr || !userData.user) {
-      console.error("[createUserWithLicense] getUser failed", { msg: userErr?.message, tokenLen: token.length, tokenStart: token.slice(0, 20) });
-      throw new Error(`Unauthorized: ${userErr?.message ?? "no user"}`);
-    }
-
+    const callerId = await getCallerUserId();
     const { data: isAdmin, error: roleErr } = await supabaseAdmin.rpc("has_role", {
-      _user_id: userData.user.id,
+      _user_id: callerId,
       _role: "admin",
     });
     if (roleErr) throw new Error(roleErr.message);
