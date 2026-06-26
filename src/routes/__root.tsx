@@ -77,9 +77,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "VibeDeals — #1 AI Credits Platform" },
+      { title: "RivalV2 — Stop struggling with AI credit limits" },
       { name: "description", content: "Top-ups, PRO accounts and the extension that freezes your credits — all instant." },
-      { property: "og:title", content: "VibeDeals — #1 AI Credits Platform" },
+      { property: "og:title", content: "RivalV2 — Stop struggling with AI credit limits" },
       { property: "og:description", content: "Stop struggling with AI credit limits." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
